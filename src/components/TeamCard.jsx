@@ -1,5 +1,6 @@
-const { useContext } = React;
-const { Card, CardMedia, CardContent, CardActions, Typography, Button } = MaterialUI;
+import React, { useContext } from 'react';
+import { Card, CardMedia, CardContent, CardActions, Typography, Button } from '@mui/material';
+import { FavoritesContext } from '../contexts/FavoritesContext.jsx'; // Volta uma pasta para achar o context
 
 const TeamCard = ({ time }) => {
     const { favorites, toggleFavorite } = useContext(FavoritesContext);
@@ -11,7 +12,7 @@ const TeamCard = ({ time }) => {
             <CardMedia
                 component="img"
                 height="200"
-                image={time.strTeamBadge || 'https://via.placeholder.com/200?text=Sem+Escudo'}  
+                image={time.strTeamBadge || 'https://via.placeholder.com/200?text=Sem+Escudo'}
                 alt={`Escudo do ${time.strTeam}`}
                 style={{ objectFit: 'contain', padding: '10px', backgroundColor: '#f5f5f5' }}
             />
@@ -42,3 +43,5 @@ const TeamCard = ({ time }) => {
         </Card>
     );
 };
+
+export default TeamCard;

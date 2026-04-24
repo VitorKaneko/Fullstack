@@ -1,12 +1,13 @@
-const { useMemo } = React;
-const { Grid, Typography } = MaterialUI;
+import React, { useMemo } from 'react';
+import { Grid, Typography } from '@mui/material';
+import TeamCard from './TeamCard.jsx'; // Importa o card que está na mesma pasta
 
 const TeamGrid = ({ times }) => {
+    
+    // O Hook obrigatório: Memoriza o filtro e previne erros de digitação da API
     const timesDeVolei = useMemo(() => {
         return times.filter((time) => {
-
             if (!time.strSport) return false;
-            
             return time.strSport.toLowerCase() === 'volleyball';
         });
     }, [times]);
@@ -29,3 +30,5 @@ const TeamGrid = ({ times }) => {
         </Grid>
     );
 };
+
+export default TeamGrid;

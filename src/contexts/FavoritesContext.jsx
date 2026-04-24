@@ -1,8 +1,12 @@
-const { createContext, useState } = React;
-const FavoritesContext = createContext();
+import React, { createContext, useState } from 'react';
 
-const FavoritesProvider = ({ children }) => {
+// Exporta o contexto para quem for consumir (ex: TeamCard)
+export const FavoritesContext = createContext();
+
+// Exporta o provedor para o main.jsx
+export const FavoritesProvider = ({ children }) => {
     const [favorites, setFavorites] = useState([]);
+
     const toggleFavorite = (team) => {
         setFavorites((prevFavorites) => {
             const isFavorite = prevFavorites.find((fav) => fav.idTeam === team.idTeam);
@@ -14,6 +18,7 @@ const FavoritesProvider = ({ children }) => {
             }
         });
     };
+
     return (
         <FavoritesContext.Provider value={{ favorites, toggleFavorite }}>
             {children}
