@@ -1,10 +1,9 @@
 import React, { useMemo } from 'react';
 import { Grid, Typography } from '@mui/material';
-import TeamCard from './TeamCard.jsx'; // Importa o card que está na mesma pasta
+import TeamCard from './TeamCard.jsx';
 
 const TeamGrid = ({ times }) => {
     
-    // O Hook obrigatório: Memoriza o filtro e previne erros de digitação da API
     const timesDeVolei = useMemo(() => {
         return times.filter((time) => {
             if (!time.strSport) return false;

@@ -12,7 +12,7 @@ const TeamCard = ({ time }) => {
             <CardMedia
                 component="img"
                 height="200"
-                image={time.strTeamBadge || 'https://via.placeholder.com/200?text=Sem+Escudo'}
+                image={time.strBadge || 'https://via.placeholder.com/200?text=Sem+Escudo'}
                 alt={`Escudo do ${time.strTeam}`}
                 style={{ objectFit: 'contain', padding: '10px', backgroundColor: '#f5f5f5' }}
             />

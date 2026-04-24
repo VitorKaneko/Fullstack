@@ -4,7 +4,6 @@ import App from './App.jsx';
 import { FavoritesProvider } from './contexts/FavoritesContext.jsx';
 import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
-// Tema básico do Material UI
 const theme = createTheme({
   palette: { primary: { main: '#1976d2' } }
 });
