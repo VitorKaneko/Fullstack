@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VolleyHub - React Puro</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+    
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script crossorigin src="https://unpkg.com/@mui/material@5.14.0/umd/material-ui.development.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        // Extraindo os Hooks do objeto global do React
+        const { useState, useMemo } = React;
+        // Extraindo os componentes do objeto global do Material UI
+        const { Container, TextField, Button, Card, CardContent, Typography, Grid, Alert, CircularProgress } = MaterialUI;
+
+        function App() {
+            // Estados (useState)
+            const [busca, setBusca] = useState('');
+            const [times, setTimes] = useState([]);
+            const [erro, setErro] = useState(null);
+            const [carregando, setCarregando] = useState(false);
+
+            // Função de requisição AJAX Puro (Fetch API)
+            const buscarTimes = async () => {
+                // Validação antes do envio
+                if (busca.trim().length < 3) {
+                    setErro("Digite pelo menos 3 caracteres para buscar.");
+                    return;
+                }
+                
+                setErro(null);
+                setCarregando(true);
+                
+                try {
+                    const resposta = await fetch(`https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${busca}`);
+                    const dados = await resposta.json();
+                    
+                    // Validação depois do envio
+                    if (dados.teams) {
+                        setTimes(dados.teams);
+                    } else {
+                        setTimes([]);
+                        setErro("Nenhum time encontrado com esse nome.");
+                    }
+                } catch (e) {
+                    setErro("Erro de rede. Tente novamente mais tarde.");
+                } finally {
+                    setCarregando(false);
+                }
+            };
+
+            // O Hook obrigatório: Filtra a resposta da API localmente
+            const timesDeVolei = useMemo(() => {
+                return times.filter(time => time.strSport === 'Volleyball');
+            }, [times]);
+
+            return (
+                <Container maxWidth="md" style={{ marginTop: '40px' }}>
+                    <Typography variant="h3" color="primary" gutterBottom>
+                        🏐 VolleyHub
+                    </Typography>
+                    
+                    <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
+                        <TextField 
+                            label="Nome do Time" 
+                            variant="outlined" 
+                            fullWidth
+                            value={busca} 
+                            onChange={(e) => setBusca(e.target.value)}
+                            error={!!erro}
+                        />
+                        <Button 
+                            variant="contained" 
+                            onClick={buscarTimes} 
+                            disabled={carregando}
+                        >
+                            {carregando ? <CircularProgress size={24} /> : "Buscar"}
+                        </Button>
+                    </div>
+
+                    {/* Exibe o erro se existir */}
+                    {erro && <Alert severity="error" style={{ marginBottom: '20px' }}>{erro}</Alert>}
+
+                    {/* Exibe os resultados */}
+                    <Grid container spacing={3}>
+                        {timesDeVolei.map((time) => (
+                            <Grid item xs={12} sm={6} md={4} key={time.idTeam}>
+                                <Card>
+                                    <CardContent>
+                                        <Typography variant="h6">{time.strTeam}</Typography>
+                                        <Typography color="textSecondary" gutterBottom>
+                                            {time.strCountry}
+                                        </Typography>
+                                        <Typography variant="body2">
+                                            Estádio: {time.strStadium || "Não informado"}
+                                        </Typography>
+                                    </CardContent>
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Container>
+            );
+        }
+
+        // Inicialização do React 18
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
