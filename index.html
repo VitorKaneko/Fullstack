@@ -1,52 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VolleyHub - React Puro</title>
-
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VolleyHub - Vite + React</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
-    <script crossorigin src="https://unpkg.com/@mui/material@5.14.0/umd/material-ui.development.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <div id="root"></div>
-
-    <script type="text/babel" src="./src/contexts/FavoritesContext.jsx"></script>
-    
-    <script type="text/babel" src="./src/components/SearchBar.jsx"></script>
-    <script type="text/babel" src="./src/components/TeamCard.jsx"></script>
-    <script type="text/babel" src="./src/components/TeamGrid.jsx"></script>
-    
-    <script type="text/babel" src="./src/App.jsx"></script>
-    
-    <script type="text/babel">
-        // Extrai as funções do React
-        const { StrictMode } = React;
-        const { ThemeProvider, createTheme, CssBaseline } = MaterialUI;
-
-        // Tema básico do Material UI
-        const theme = createTheme({
-            palette: { primary: { main: '#1976d2' } }
-        });
-
-        // Injeta o App dentro da div #root
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(
-            <StrictMode>
-                <ThemeProvider theme={theme}>
-                    <CssBaseline />
-                    <FavoritesProvider>
-                        <App />
-                    </FavoritesProvider>
-                </ThemeProvider>
-            </StrictMode>
-        );
-    </script>
-</body>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

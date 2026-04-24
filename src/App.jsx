@@ -1,6 +1,7 @@
-
-const { useState, useMemo } = React;
-const { Container, Typography } = MaterialUI;
+import React, { useState } from 'react';
+import { Container, Typography } from '@mui/material';
+import SearchBar from './components/SearchBar.jsx';
+import TeamGrid from './components/TeamGrid.jsx';
 
 const App = () => {
     const [times, setTimes] = useState([]);
@@ -11,9 +12,10 @@ const App = () => {
                 🏐 VolleyHub
             </Typography>
             
-            {/* Os componentes abaixo estarão visíveis pois foram carregados antes no index.html */}
             <SearchBar setTimes={setTimes} />
             <TeamGrid times={times} />
         </Container>
     );
 };
+
+export default App; 

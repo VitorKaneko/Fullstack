@@ -2,12 +2,15 @@ const { useMemo } = React;
 const { Grid, Typography } = MaterialUI;
 
 const TeamGrid = ({ times }) => {
-    // O Hook obrigatório: Memoriza o filtro para não recalcular à toa
     const timesDeVolei = useMemo(() => {
-        return times.filter((time) => time.strSport === 'Volleyball');
+        return times.filter((time) => {
+
+            if (!time.strSport) return false;
+            
+            return time.strSport.toLowerCase() === 'volleyball';
+        });
     }, [times]);
 
-    // Se a API retornou times, mas nenhum deles era de vôlei:
     if (times.length > 0 && timesDeVolei.length === 0) {
         return (
             <Typography variant="h6" color="textSecondary" align="center" style={{ marginTop: '20px' }}>

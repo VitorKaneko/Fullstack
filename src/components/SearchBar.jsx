@@ -1,4 +1,4 @@
-// Extrai os hooks e componentes das variáveis globais
+
 const { useState } = React;
 const { TextField, Button, Alert, CircularProgress } = MaterialUI;
 
@@ -8,7 +8,6 @@ const SearchBar = ({ setTimes }) => {
     const [carregando, setCarregando] = useState(false);
 
     const handleBusca = async () => {
-        // Validação ANTES do envio (Critério de avaliação)
         if (termo.trim().length < 3) {
             setErro("Digite pelo menos 3 caracteres para buscar.");
             setTimes([]); // Limpa a tela se houver erro
@@ -19,11 +18,11 @@ const SearchBar = ({ setTimes }) => {
         setCarregando(true);
 
         try {
-            // Chamada AJAX pura com fetch
+          
             const resposta = await fetch(`https://www.thesportsdb.com/api/v1/json/3/searchteams.php?t=${termo}`);
             const dados = await resposta.json();
+            console.log("O que a API encontrou:", dados.teams);
 
-            // Validação DEPOIS do envio
             if (dados.teams) {
                 setTimes(dados.teams);
             } else {
@@ -59,8 +58,7 @@ const SearchBar = ({ setTimes }) => {
                     {carregando ? <CircularProgress size={24} color="inherit" /> : "Buscar"}
                 </Button>
             </div>
-            
-            {/* Exibe o alerta de erro caso a validação falhe */}
+                    
             {erro && <Alert severity="error">{erro}</Alert>}
         </div>
     );
