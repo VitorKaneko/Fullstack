@@ -14,9 +14,7 @@ export default function Header() {
         <Typography variant="h6">VolleyHub</Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-          <Badge badgeContent={favoritesCount} color="error">
-            <FavoriteIcon />
-          </Badge>
+
 
           {user?.email && (
             <Typography variant="body2">{user.email}</Typography>

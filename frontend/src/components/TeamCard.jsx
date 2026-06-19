@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import { Card, CardMedia, CardContent, CardActions, Typography, Button } from '@mui/material';
-import { FavoritesContext } from '../contexts/FavoritesContext.jsx'; // Volta uma pasta para achar o context
+import { FavoritesContext } from '../contexts/FavoritesContext.jsx';
+
+const PLACEHOLDER = 'https://placehold.co/200x200/cccccc/666666?text=Sem+Escudo';
 
 const TeamCard = ({ time }) => {
     const { favorites, toggleFavorite } = useContext(FavoritesContext);
-    
+
     const isFavorito = favorites.some((fav) => fav.idTeam === time.idTeam);
 
     return (
@@ -12,11 +14,12 @@ const TeamCard = ({ time }) => {
             <CardMedia
                 component="img"
                 height="200"
-                image={time.strBadge || 'https://via.placeholder.com/200?text=Sem+Escudo'}
+                image={time.strTeamBadge || PLACEHOLDER}
                 alt={`Escudo do ${time.strTeam}`}
+                onError={(e) => { e.target.src = PLACEHOLDER; }}
                 style={{ objectFit: 'contain', padding: '10px', backgroundColor: '#f5f5f5' }}
             />
-            
+
             <CardContent style={{ flexGrow: 1 }}>
                 <Typography variant="h6" component="h2" gutterBottom>
                     {time.strTeam}
@@ -30,8 +33,8 @@ const TeamCard = ({ time }) => {
             </CardContent>
 
             <CardActions>
-                <Button 
-                    size="small" 
+                <Button
+                    size="small"
                     color={isFavorito ? "secondary" : "primary"}
                     onClick={() => toggleFavorite(time)}
                     variant={isFavorito ? "contained" : "outlined"}

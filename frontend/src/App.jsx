@@ -6,7 +6,7 @@ import Header from './components/Header'
 import LoginForm from './components/LoginForm'
 import SearchBar from './components/SearchBar'
 import TeamGrid from './components/TeamGrid'
-import InsertTeamForm from './components/InsertTeamForm'
+import InsertTeamForm from './components/InsertTeam'
 
 function MainScreen() {
   const { token, apiUrl } = useAuth()
@@ -17,12 +17,6 @@ function MainScreen() {
   const [searchPerformed, setSearchPerformed] = useState(false)
   const [insertOpen, setInsertOpen] = useState(false)
   const [snackbar, setSnackbar] = useState({ open: false, message: '', severity: 'success' })
-
-  // useMemo: filtra apenas times de vôlei
-  const volleyballTeams = useMemo(
-    () => teamData.filter((team) => team.strSport === 'Volleyball'),
-    [teamData],
-  )
 
   const handleSearch = async (query) => {
     setIsLoading(true)
@@ -78,7 +72,7 @@ function MainScreen() {
           <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>
         )}
 
-        <TeamGrid teams={volleyballTeams} searchPerformed={searchPerformed && !error} />
+        <TeamGrid times={teamData} />
       </Container>
 
       <InsertTeamForm
