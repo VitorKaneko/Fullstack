@@ -14,6 +14,7 @@ export const pool = new pg.Pool({
   connectionTimeoutMillis: 2000,
 })
 
+//pool de conexões com tratamento de erros
 pool.on('error', (err) => {
   logger.error('Erro inesperado no pool de conexões', { error: err.message })
 })

@@ -13,6 +13,7 @@ export class TeamModel {
          id             AS "idTeam"
        FROM teams
        WHERE LOWER(str_team) LIKE LOWER($1)`,
+       //Anti-SQL Injection: query parametrizada
       [`%${name}%`]
     )
     return rows

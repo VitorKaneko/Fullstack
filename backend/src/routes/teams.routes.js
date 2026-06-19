@@ -27,7 +27,7 @@ function sanitize(str) {
   return String(str).trim().replace(/[<>]/g, '')
 }
 
-// GET /teams/search?name=brasil
+//padrão rest
 router.get('/search', authenticate, async (req, res) => {
   const name = sanitize(req.query.name || '')
   if (name.length < 3) {
@@ -52,6 +52,7 @@ router.get('/search', authenticate, async (req, res) => {
   }
 })
 
+//padrão rest
 router.post('/', authenticate, async (req, res) => {
   const strTeam = sanitize(req.body.strTeam || '')
   const strCountry = sanitize(req.body.strCountry || '')

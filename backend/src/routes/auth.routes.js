@@ -9,6 +9,7 @@ import { logger } from '../config/logger.js'
 const router = Router()
 
 const loginAttempts = new Map()
+//Limitação do número de tentativas de login
 function rateLimitLogin(req, res, next) {
   const ip = req.ip
   const now = Date.now()
@@ -26,6 +27,7 @@ function rateLimitLogin(req, res, next) {
   next()
 }
 
+//validação do login
 function validateLogin(req, res, next) {
   const { email, password } = req.body
   const errors = []
@@ -36,6 +38,7 @@ function validateLogin(req, res, next) {
   if (typeof password !== 'string' || password.length < 6) {
     errors.push({ field: 'password', message: 'Senha deve ter ao menos 6 caracteres.' })
   }
+  //mensagem de validação
   if (errors.length) return res.status(400).json({ errors })
 
   req.body.email = email.trim().toLowerCase()
@@ -50,6 +53,7 @@ router.post('/login', rateLimitLogin, validateLogin, async (req, res) => {
       logger.warn('Login: e-mail inexistente', { email, ip: req.ip })
       return res.status(401).json({ error: 'Credenciais inválidas.' })
     }
+    //criptografia da senha
     const valid = await bcrypt.compare(password, user.password_hash)
     if (!valid) {
       logger.warn('Login: senha incorreta', { email, ip: req.ip })
@@ -78,6 +82,7 @@ router.post('/logout', (req, res) => {
   try {
     const token = authHeader.split(' ')[1]
     const decoded = jwt.verify(token, process.env.JWT_SECRET)
+    //invalidação do token adicionando-o à blocklist
     blocklist.add(decoded.jti, decoded.exp * 1000)
     logger.info('Logout: token invalidado', { userId: decoded.userId })
     res.status(200).json({ message: 'Logout realizado com sucesso.' })

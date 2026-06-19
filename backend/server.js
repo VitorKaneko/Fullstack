@@ -24,6 +24,7 @@ app.use((req, res, next) => {
   next()
 })
 
+//compressão de respostas 
 app.use(compression())
 
 app.use(express.json({ limit: '10kb' }))
@@ -31,13 +32,11 @@ app.use(express.json({ limit: '10kb' }))
 app.use('/auth', authRoutes)
 app.use('/teams', teamRoutes)
 
-// ── Rota de saúde ──
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() })
 })
 
-
-// ── Servir o frontend buildado, se existir (compressão de estáticos) ──
+//express static
 const FRONTEND_DIST = path.resolve('../frontend/dist')
 if (fs.existsSync(FRONTEND_DIST)) {
   app.use(express.static(FRONTEND_DIST))
@@ -45,16 +44,13 @@ if (fs.existsSync(FRONTEND_DIST)) {
     res.sendFile(path.join(FRONTEND_DIST, 'index.html'))
   })
 }
-/*const FRONTEND_DIST = path.resolve('../frontend/dist')
-app.use(express.static(FRONTEND_DIST))
-app.get('*', (req, res) => {
-  res.sendFile(path.join(FRONTEND_DIST, 'index.html'))
-})
-*/
+
 const sslOptions = {
   key:  fs.readFileSync(process.env.SSL_KEY_PATH),
   cert: fs.readFileSync(process.env.SSL_CERT_PATH),
 }
+
+//servidor HTTPS com certificado
 const PORT = process.env.PORT || 3001
 https.createServer(sslOptions, app).listen(PORT, () => {
   logger.info(`Servidor HTTPS rodando na porta ${PORT}`)
