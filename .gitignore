@@ -1,0 +1,12 @@
+﻿# Dependencias
+node_modules/
+
+# Variaveis de ambiente e segredos
+.env
+
+# Gerados em runtime
+logs/
+certs/
+
+# Build do frontend
+dist/
