@@ -2,7 +2,9 @@ import fs from 'fs'
 import path from 'path'
 
 const LOG_DIR = path.resolve('logs')
-if (!fs.existsSync(LOG_DIR)) fs.mkdirSync(LOG_DIR, { recursive: true })
+if (!fs.existsSync(LOG_DIR)) {
+  fs.mkdirSync(LOG_DIR, { recursive: true })
+}
 
 function write(level, message, meta = {}) {
   const entry = JSON.stringify({
